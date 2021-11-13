@@ -1,20 +1,17 @@
 
-const url = 'http://localhost:4040/contacts';
+const url = 'https://618eda9450e24d0017ce14a1.mockapi.io/contacts';
 const readContacts = () => {
     return fetch(url).then(res => res.json());
-        // .then(console.log);
       }
 const addContacts = (contact) => {
     console.log('contact=', JSON.stringify(contact));
-    return fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: contact,
-    })
-      .then(res => res.json())
-      .then(console.log);
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(contact),
+  })
 }
 
     const deleteContacts = contactId => {

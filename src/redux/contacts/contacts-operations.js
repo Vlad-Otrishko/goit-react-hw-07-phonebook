@@ -1,45 +1,41 @@
 import api from '../../services/APIService';
-import {
-    readContacts,
-    readContactsSuccess,
-    readContactsError,
-    addContacts,
-    addContactsSuccess,
-    addContactsError,
-    deleteContacts,
-    deleteContactsSuccess,
-    deleteContactsError,
-} from './contacts-actions';
-
-console.log(api.readContacts());
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 
-export const readContactsRequest = () => async dispatch=> {
-    dispatch (readContacts());
-try {
-    const result = await api.readContacts();
-    dispatch(readContactsSuccess(result));
-} catch (error) {
-    dispatch(readContactsError(error.message));
-    }
-}
+export const readContacts = createAsyncThunk(
+  'contacts/readContacts',
+    async (_, { rejectWithValue }) => {
+        try {
+            const contacts = await api.readContacts();
+            return contacts;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+  },
+);
 
-export const addContactsRequest = (contact) => async dispatch=> {
-    dispatch (addContacts());
-try {
-    await api.addContacts(contact);
-    dispatch(addContactsSuccess(contact));
-} catch (error) {
-    dispatch(addContactsError(error.message));
-    }
-}
+export const addContacts = createAsyncThunk(
+  'contacts/addContacts',
+    async (contact, { rejectWithValue }) => {
+        try {
+          const result = await api.addContacts(contact).then(res => res.json());
+          return result;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+  },
+);
 
-export const deleteContactsRequest = (contactId) => async dispatch=> {
-    dispatch (deleteContacts());
-try {
-await api.deleteContacts(contactId);
-    dispatch(deleteContactsSuccess(contactId));
-} catch (error) {
-    dispatch(deleteContactsError(error.message));
-    }
-}
+    
+export const deleteContacts = createAsyncThunk(
+  'contacts/deleteContacts',
+    async (contactId, { rejectWithValue }) => {
+        try {
+            await api.deleteContacts(contactId);
+            return contactId;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+  },
+);
+  

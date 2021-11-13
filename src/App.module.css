@@ -42,7 +42,7 @@ ul,li,div,p {
 
 .container {
   display: block;
-  height:100vh;
+  /* height:100vh; */
   margin: 0 auto;
   padding: 20px;
   background-image: url('./old_paper.jpg') ;

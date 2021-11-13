@@ -1,7 +1,7 @@
-import {useEffect} from 'react';
+import { useEffect } from 'react';
+import contactsSelectors from '../../redux/contacts/contacts-selectors'
 import { useSelector, useDispatch } from 'react-redux';
-import api from '../../services/APIService';
-import { readContactsRequest, deleteContactsRequest } from '../../redux/contacts/contacts-operations';
+import { readContacts, deleteContacts } from '../../redux/contacts/contacts-operations';
 import Contact from '../Contact/Contact';
 import s from './ContactList.module.css';
 
@@ -10,19 +10,12 @@ const ContactList = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(api.readContacts());
-    dispatch(readContactsRequest());
+    dispatch(readContacts());
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []
   );
 
-
-  const items = useSelector(state => state.contacts.items);
-  const filter = useSelector(state => state.contacts.filter);
-
-  const normalizedFilter = filter.toLowerCase();
-  const visibleList = items.filter(({ name }) =>
-    name.toLowerCase().includes(normalizedFilter));
+  const visibleList = useSelector(state=>contactsSelectors.getVisible(state));
 
     return (
       <ul className={s.list}>
@@ -30,12 +23,12 @@ const ContactList = () => {
           <li key={item.id} className={s.line}>
             <Contact
               name={item.name}
-              number={item.number}
+              number={item.phone}
             />
             <button
               type="button"
               className={s.deleteButton}
-              onClick={() => dispatch(deleteContactsRequest(item.id))}
+              onClick={() => dispatch(deleteContacts(item.id))}
             ></button>
           </li>
         ))}

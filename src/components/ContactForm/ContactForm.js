@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addContactsRequest } from '../../redux/contacts/contacts-operations';
+import { addContacts } from '../../redux/contacts/contacts-operations';
 import shortid from 'shortid';
 import s from './ContactForm.module.css';
 
@@ -25,7 +25,7 @@ const ContactForm = () => {
  const  handleSubmit = e => {
     e.preventDefault();
    const id = shortid.generate();
-   dispatch(addContactsRequest({ name, number, id }));
+   dispatch(addContacts({ name, 'phone':number,id}));
     reset();
   };
   const reset = () => {
